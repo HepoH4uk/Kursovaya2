@@ -1,4 +1,5 @@
 class Vacancy:
+    """Клас вакансий"""
     __slots__ = ("_id", "_title", "_url", "_salary")
 
     def __init__(self, id: str, title: str, salary: float, url: str):
@@ -28,11 +29,13 @@ class Vacancy:
     @salary.setter
     def salary(self, value: float):
         if value is None:
-            self._salary = 0  # Или можно использовать "Зарплата не указана"
+            self._salary = 0
+            return 0
         elif not isinstance(value, (int, float)) or value < 0:
             raise ValueError("Заработная плата не может быть отрицательной")
         else:
             self._salary = value
+            return value
 
     @property
     def url(self):
