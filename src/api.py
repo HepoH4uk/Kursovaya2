@@ -1,9 +1,9 @@
 from abc import ABC, abstractmethod
-
 import requests
 
 
 class AbstractAPI(ABC):
+    """Абстрактный касс для работы с API"""
     @abstractmethod
     def connect(self):
         """Абстрактный метод для проверки соединения"""
@@ -22,12 +22,14 @@ class HeadHunterAPI(AbstractAPI):
         self.__base_url = "https://api.hh.ru/vacancies"
 
     def connect(self):
+        """Запрос на подключение к API"""
         response = requests.get(self.__base_url)
         if response.status_code != 200:
             raise Exception("Ошибка подключения: 404")
         return response
 
     def get_vacancies(self, keyword: str, per_page: int = 20):
+        """Получение вакансий от API"""
         response = self.connect()
         params = {"text": keyword, "per_page": per_page}
         response = requests.get(self.__base_url, params=params)
