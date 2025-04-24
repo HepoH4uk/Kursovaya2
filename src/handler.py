@@ -32,36 +32,35 @@ class JSONFileHandler(AbstractFileHandler):
     def __init__(self, filename="vacancies.json"):
         self.__filename = filename
 
-    def add_vacancy(self, vacancy) -> List[Dict]:
+    def add_vacancy(self) -> List[Dict]:
         """Добавляем вакансию в JSON-файл"""
-        vacancies = self.get_vacancies()
         try:
-            if vacancy not in vacancies:
-                vacancies.append(vacancy)
-                with open(self.__filename, 'w') as file:
-                    json.dump(vacancies, file, indent=4)
+            with open(self.__filename, "r", encoding="utf-8") as file:
+                return json.load(file)
         except FileNotFoundError:
             return []
 
     def save_data(self, data):
         """Сохраняем вакансию в файл"""
         try:
-            with open("vacancies.json", "r", encoding="utf-8") as file:
+            with open(self.__filename, "r", encoding="utf-8") as file:
                 existing_data = json.load(file)
                 if not isinstance(existing_data, list):  # Проверяем, что это список
                     existing_data = []  # Если это не список, инициализируем пустой список
         except FileNotFoundError:
             existing_data = []  # Если файл не найден, создаем новый список
+        except json.JSONDecodeError:
+            existing_data = [] # Если есть ошибка декодирования, начинаем с пустого списка
 
-        # Преобразуем существующие данные в множество для проверки уникальности
+        # Преобразуем существующие данные  для проверки уникальности
         existing_set = set(json.dumps(item, sort_keys=True) for item in existing_data)
 
-        # Добавляем новые данные в множество, чтобы избежать дубликатов
+        # Добавляем новые данные, чтобы избежать дубликатов
         for item in data:
             item_str = json.dumps(item, sort_keys=True)
             existing_set.add(item_str)
 
-        # Преобразуем множество обратно в список
+        # Преобразуем обратно в список
         unique_data = [json.loads(item) for item in existing_set]
 
         with open("vacancies.json", "w", encoding="utf-8") as file:
@@ -83,6 +82,8 @@ class JSONFileHandler(AbstractFileHandler):
             print(f"Ошибка декодирования JSON: {e}")
 
         return filtered_vacancies  # Возвращаем отфильтрованные вакансии
+
+
 
     def delete_vacancy(self, vacancy_name):
         """Удалить вакансии из файла."""
