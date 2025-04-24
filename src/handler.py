@@ -50,9 +50,10 @@ class JSONFileHandler(AbstractFileHandler):
         except FileNotFoundError:
             existing_data = []  # Если файл не найден, создаем новый список
         except json.JSONDecodeError:
-            existing_data = [] # Если есть ошибка декодирования, начинаем с пустого списка
+            # Если есть ошибка декодирования, начинаем с пустого списка
+            existing_data = []
 
-        # Преобразуем существующие данные  для проверки уникальности
+        # Преобразуем существующие данные для проверки уникальности
         existing_set = set(json.dumps(item, sort_keys=True) for item in existing_data)
 
         # Добавляем новые данные, чтобы избежать дубликатов
@@ -82,8 +83,6 @@ class JSONFileHandler(AbstractFileHandler):
             print(f"Ошибка декодирования JSON: {e}")
 
         return filtered_vacancies  # Возвращаем отфильтрованные вакансии
-
-
 
     def delete_vacancy(self, vacancy_name):
         """Удалить вакансии из файла."""
