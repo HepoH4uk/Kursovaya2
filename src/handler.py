@@ -29,7 +29,7 @@ class AbstractFileHandler(ABC):
 
 class JSONFileHandler(AbstractFileHandler):
     """Класс обработки файла"""
-    def __init__(self, filename = "vacancies.json"):
+    def __init__(self, filename="vacancies.json"):
         self.__filename = filename
 
     def add_vacancy(self, vacancy) -> List[Dict]:
