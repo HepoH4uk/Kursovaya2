@@ -9,7 +9,6 @@ def test_filter_vacancies():
         {"title": "Senior Developer", "salary": 80000},
     ]
 
-    # Тест 1: Фильтрация с минимальной зарплатой 50000
     result = filter_vacancies(vacancies, min_salary=60000)
     expected = [
         {"title": "Developer", "salary": 60000},
