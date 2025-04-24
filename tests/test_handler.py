@@ -10,7 +10,6 @@ def test_add_vacancy_success():
         data = handler.add_vacancy()
         assert data == mock_data, "Ошибка: Данные не загружены корректно"
 
-
 def test_add_vacancy_file_not_found():
     with patch("builtins.open", side_effect=FileNotFoundError):
         handler = JSONFileHandler("test_vacancies.json")
