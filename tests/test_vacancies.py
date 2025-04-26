@@ -78,3 +78,10 @@ def test_vacancy_wrong_title():
     with pytest.raises(ValueError) as er:
         vacancy.title = None
     assert str(er.value) == "Название должно быть непустой строкой"
+
+
+def test_vacancy_wrong_url():
+    vacancy = Vacancy("1", "Test Vacancy", 1000.0, "http://example.com")
+    with pytest.raises(ValueError) as er:
+        vacancy.url = None
+    assert str(er.value) == "URL должен быть непустой строкой"
